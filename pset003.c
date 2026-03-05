@@ -43,7 +43,7 @@ uint64_t factor(uint64_t n){
 }
 
 // The prime factors of 13195 are 5, 7, 13 and 29.
-// What is the largest prime factor of the number 600851475143?
+// What is the largest prime factor of the number 600,851,475,143?
 int main(int argc, char *argv[]){
     uint64_t n = 600851475143;
     char *p2n;
@@ -51,6 +51,11 @@ int main(int argc, char *argv[]){
     for(int i = 0; i < argc; i++){
         if(strcmp(argv[i], "-n") == 0){
             n = (uint64_t) strtol(argv[++i], &p2n, 10);
+            
+            if ((p2n == argv[i]) || (*p2n != '\0')) {
+                printf ("'%s' is not valid. Make sure to input only integers!\n", argv[i]);
+                return 1;
+            }
         }
     }
 
