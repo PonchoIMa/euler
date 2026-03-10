@@ -1,7 +1,7 @@
 # The prime factors of 13195 are 5, 7, 13 and 29. What is the largest prime factor of the number 600851475143?
 from os.path import isfile
 from subprocess import CalledProcessError
-import argparse, logging, subprocess
+import argparse, logging, subprocess, random, re
 
 GREEN   = "\033[92m"
 RED     = "\033[91m"
@@ -23,7 +23,25 @@ def normailze_filename(f: str) -> str:
             raise ValueError(RED + f'ERROR: "{f}" is not a valid filename!' + END)
     return None 
 
-def main(f: str, test: list, verbose: bool):
+def flagger(flags:str) -> str:
+    flags       = flags.split()
+    new_flags   = []
+    for element in flags:
+        if('$randint' in element):
+            match = re.findall(r'\(([0-9\-]*)', element)
+            logging.debug(BLUE + f'Found flags for {element}, match: {match}!' + END)
+            if('-' in match[0]):
+                match = match[0].split('-')
+                # element = random.randint(int(match[0]), int(match[1]))
+                new_flags.append(str(random.randint(int(match[0]), int(match[1]))))
+                continue
+            element = random.randint(1, int(match[0]))
+        new_flags.append(element)
+
+    logging.debug(BLUE + f'New flags: {new_flags}!' + END)
+    return ' '.join(new_flags)
+
+def main(f: str, flags: str, test: int, verbose: bool):
     if(verbose):
         logging.basicConfig(level=logging.DEBUG, format='%(message)s')
     else:
@@ -44,25 +62,33 @@ def main(f: str, test: list, verbose: bool):
         # Compile file.c, continue if no errors
         logging.warning(YELLOW + f'Compiling {c_file}!' + END)
         out = subprocess.run(f'gcc -o {n_filename} {c_file}', shell = True, check = True, capture_output = True)
-        # TODO: Analyze completed process
 
-        # Run python script (python pset003.py [--flags})
-        logging.warning(YELLOW + f'Executing {py_file}!' + END)
-        py_out = subprocess.run(f'python {py_file}', shell = True, check = True, capture_output = True)
-        py_out = py_out.stdout[:-1].decode('UTF-8')
-        logging.debug(BLUE + f'Results are in! Python script returned: {py_out}!' + END)
+        # Begin tests
+        for i in range(0, test):
+            new_flags = ''
 
-        # Run C script (./file)
-        logging.warning(YELLOW + f'Executing {c_file}!' + END)
-        c_out = subprocess.run(f'./{n_filename}', shell = True, check = True, capture_output = True)
-        c_out = c_out.stdout[:-1].decode('UTF-8')
-        logging.debug(BLUE + f'Results are in! C script returned: {c_out}!' + END)
+            if('$randint' in flags):
+                logging.debug(BLUE + f'Getting flags for {flags} found!' + END)
+                new_flags = flagger(flags)
+            else:
+                new_flags = flags
 
-        # Compare results
-        if(py_out == c_out):
-            print(GREEN + f'Success! C successfully solved {n_filename} with an output of {c_out}' + END)
-        else:
-            print(RED + f'Failure! Python prompted {py_out} while C prompted {c_out}. Go fix your code!' + END)
+            logging.warning(YELLOW + f'Executing {py_file}!' + END)
+            py_out = subprocess.run(f'python {py_file} {new_flags}', shell = True, check = True, capture_output = True)
+            py_out = py_out.stdout[:-1].decode('UTF-8')
+            logging.debug(BLUE + f'Results are in! Python script returned: {py_out}!' + END)
+
+            # Run C script (./file)
+            logging.warning(YELLOW + f'Executing {c_file}!' + END)
+            c_out = subprocess.run(f'./{n_filename} {new_flags}', shell = True, check = True, capture_output = True)
+            c_out = c_out.stdout[:-1].decode('UTF-8')
+            logging.debug(BLUE + f'Results are in! C script returned: {c_out}!' + END)
+
+            # Compare results
+            if(py_out == c_out):
+                print(GREEN + f'Success! C successfully solved {n_filename} with an output of {c_out}' + END)
+            else:
+                print(RED + f'Failure! Python prompted {py_out} while C prompted {c_out}. Go fix your code!' + END)
 
     except ValueError as e:
         logging.error(RED + str(e) + END)
@@ -82,10 +108,14 @@ if(__name__ == '__main__'):
 
     parser.add_argument('-f', type = str, required = True,
                         help = 'file or problem set to reach (if no extension is provided, it defaults to psetXYZ.py)')
-    parser.add_argument('--test', nargs = '*', type = list, required = False,
-                        help = 'custom input to test {may be inconsistent depending on cases)')
+    parser.add_argument('--flags', type = str, required = False, default = '',
+                        help = 'custom flags to test both scripts')
+    parser.add_argument('-t', '--test', type = int, required = False, default = 1,
+                        help = 'number of tests to prove (--flags must have at least one random arg.)')
     parser.add_argument('-v', '--verbose', action = 'store_true',
                         help = 'outputs the steps it follows')
     args = parser.parse_args()
+    
+    # TODO: Raise an exception if -t but --flags have no random arguments
 
-    main(args.f, args.test, args.verbose)
+    main(args.f, args.flags, args.test, args.verbose)
