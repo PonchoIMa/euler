@@ -29,14 +29,32 @@ int main(int argc, char *argv[]){
     uint32_t b = 1;
     uint32_t limit = 4000000;
 
-    // TODO: Find a way to parse without atoi
+    char *p2n;
+
     for(int i = 0; i < argc; i++){
         if(strcmp(argv[i], "-a") == 0){
-            a = (uint32_t) atoi(argv[++i]);
-        } else if(strcmp(argv[i], "-b") == 0){
-            b = (uint32_t) atoi(argv[++i]);
-        } else if(strcmp(argv[i], "-limit") == 0){
-            limit = (uint32_t) atoi(argv[++i]);
+            a = (uint32_t) strtol(argv[++i], &p2n, 10);
+            
+            if ((p2n == argv[i]) || (*p2n != '\0')) {
+                printf ("'%s' is not valid. Make sure to input only integers!\n", argv[i]);
+                return 1;
+            }
+        }
+        if(strcmp(argv[i], "-b") == 0){
+            b = (uint32_t) strtol(argv[++i], &p2n, 10);
+            
+            if ((p2n == argv[i]) || (*p2n != '\0')) {
+                printf ("'%s' is not valid. Make sure to input only integers!\n", argv[i]);
+                return 1;
+            }
+        }
+        if(strcmp(argv[i], "-l") == 0){
+            limit = (uint32_t) strtol(argv[++i], &p2n, 10);
+            
+            if ((p2n == argv[i]) || (*p2n != '\0')) {
+                printf ("'%s' is not valid. Make sure to input only integers!\n", argv[i]);
+                return 1;
+            }
         }
     }
     // n needs to remain as 0 in order to preserve the n+2 structure, though a more
