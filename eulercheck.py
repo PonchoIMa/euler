@@ -60,10 +60,12 @@ def main(f: str, flags: str, test: int, verbose: bool):
             logging.debug(BLUE + f'Files {py_file} and {c_file} found!' + END)
 
         # Compile file.c, continue if no errors
-        logging.warning(YELLOW + f'Compiling {c_file}!' + END)
+        logging.debug(BLUE + f'Compiling {c_file}!' + END)
         out = subprocess.run(f'gcc -o {n_filename} {c_file}', shell = True, check = True, capture_output = True)
 
         # Begin tests
+        # TODO: Change Executing warnings to debug notes
+        # TODO: print new_flags on multiple tests instances
         for i in range(0, test):
             new_flags = ''
 
@@ -73,22 +75,25 @@ def main(f: str, flags: str, test: int, verbose: bool):
             else:
                 new_flags = flags
 
-            logging.warning(YELLOW + f'Executing {py_file}!' + END)
+            logging.debug(BLUE+ f'Executing {py_file}!' + END)
             py_out = subprocess.run(f'python {py_file} {new_flags}', shell = True, check = True, capture_output = True)
             py_out = py_out.stdout[:-1].decode('UTF-8')
             logging.debug(BLUE + f'Results are in! Python script returned: {py_out}!' + END)
 
             # Run C script (./file)
-            logging.warning(YELLOW + f'Executing {c_file}!' + END)
+            logging.debug(BLUE + f'Executing {c_file}!' + END)
             c_out = subprocess.run(f'./{n_filename} {new_flags}', shell = True, check = True, capture_output = True)
             c_out = c_out.stdout[:-1].decode('UTF-8')
             logging.debug(BLUE + f'Results are in! C script returned: {c_out}!' + END)
 
             # Compare results
+            if(new_flags != ''):
+                new_flags = '\nFlags used: ' + new_flags
+
             if(py_out == c_out):
-                print(GREEN + f'Success! C successfully solved {n_filename} with an output of {c_out}' + END)
+                print(GREEN + f'Success! C and Python successfully solved {n_filename} with an output of {c_out}{new_flags}' + END)
             else:
-                print(RED + f'Failure! Python prompted {py_out} while C prompted {c_out}. Go fix your code!' + END)
+                print(RED + f'Failure! Python prompted {py_out} while C prompted {c_out}. Go fix your code!{new_flags}' + END)
 
     except ValueError as e:
         logging.error(RED + str(e) + END)
