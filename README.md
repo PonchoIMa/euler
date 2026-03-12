@@ -7,8 +7,8 @@ This directory tracks my solutions to Project Euler problems. My goal is to solv
 | 001     | Multiples of 3 or 5         |    [x]    | [x]  |  [ ]  | First time using gdb, also, being able to learn argparse for python |
 | 002     | Even Fibonacci Numbers      |    [x]    | [x]  |  [ ]  | Learning recursion (though iteration was better), memory management and testing; first time using flags in C |
 | 003     | Largest Prime Factor        |    [x]    | [x]  |  [ ]  | Implemented logging in Python, learning to read C99 docs (first use of strtol() function, spoiler? It sucks!) |
-| 004     | Largest Palindrome Product  |    [x]    | [ ]  |  [ ]  | Algorithmic thinking really did kick off here in Python, we'll see how the C (WIP) script has in store for me |
-| 005     | Smallest Multiple           |    [ ]    | [ ]  |  [ ]  | NA                   |
+| 004     | Largest Palindrome Product  |    [x]    | [x]  |  [ ]  | Algorithmic thinking really did kick off here in Python, C was a total headache, but worked as well |
+| 005     | Smallest Multiple           |    [x]    | [ ]  |  [ ]  | Python logic is still non-optimal; it appears I also need to know math, who would have thought!? (/s) |
 | 006     | Sum Square Difference       |    [ ]    | [ ]  |  [ ]  | NA                   |
 | 007     | 10,001st Prime              |    [ ]    | [ ]  |  [ ]  | NA                   |
 | 008     | Largest Product in a Series |    [ ]    | [ ]  |  [ ]  | NA                   |
