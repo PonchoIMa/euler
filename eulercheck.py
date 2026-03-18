@@ -35,7 +35,9 @@ def flagger(flags:str) -> str:
                 # element = random.randint(int(match[0]), int(match[1]))
                 new_flags.append(str(random.randint(int(match[0]), int(match[1]))))
                 continue
-            element = random.randint(1, int(match[0]))
+            new_flags.append(str(random.randint(1, int(match[0]))))
+            continue
+        logging.debug(BLUE + f'Appending {element}!' + END)
         new_flags.append(element)
 
     logging.debug(BLUE + f'New flags: {new_flags}!' + END)
@@ -61,15 +63,14 @@ def main(f: str, flags: str, test: int, verbose: bool):
 
         # Compile file.c, continue if no errors
         logging.debug(BLUE + f'Compiling {c_file}!' + END)
-        out = subprocess.run(f'gcc -o {n_filename} {c_file}', shell = True, check = True, capture_output = True)
+        out = subprocess.run(f'gcc -o {n_filename} {c_file} -lm', shell = True, check = True, capture_output = True)
 
         # Begin tests
-        # TODO: Change Executing warnings to debug notes
-        # TODO: print new_flags on multiple tests instances
         for i in range(0, test):
             new_flags = ''
+            logging.debug(BLUE + f'Flags: {flags}' + END)
 
-            if('$randint' in flags):
+            if(flags != ''):
                 logging.debug(BLUE + f'Getting flags for {flags} found!' + END)
                 new_flags = flagger(flags)
             else:
