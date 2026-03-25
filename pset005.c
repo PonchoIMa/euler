@@ -46,7 +46,7 @@ uint64_t find_lcm(int n){
 }
 
 int main(int argc, char *argv[]){
-    int n = 10;
+    int n = 20;
     char *p2n;
 
     for(int i = 0; i < argc; i++){

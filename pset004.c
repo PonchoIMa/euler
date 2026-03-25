@@ -34,7 +34,6 @@ uint64_t find_palyndrome_by(int n){
     uint64_t lim_d  = (uint64_t) pow((double) 10, (double) (n - 1));
     uint64_t limit  = (lim_d * 9);
     limit          += (lim_d - 1);
-    printf("%i\n%li\n%li\n", n, limit, lim_d);
 
     for(uint64_t i = limit; i > lim_d; i--){
         for(uint64_t j = i; j > lim_d; j--){

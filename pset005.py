@@ -58,7 +58,7 @@ if(__name__ == '__main__'):
             description = 'finds the smallest positive number that is evenly divisible, divisible with no remainder by all of the numbers from 1 to 20', 
             epilog      = 'made with <3 by ponchoima')
 
-    parser.add_argument('-n', type = int, default = 10,
+    parser.add_argument('-n', type = int, default = 20,
                         help = 'last divisor (default = 20)')
     parser.add_argument('-v', '--verbose', action = 'store_true',
                         help = 'outputs the steps it follows')
