@@ -10,7 +10,7 @@ This directory tracks my solutions to Project Euler problems. My goal is to solv
 | 004     | Largest Palindrome Product  |    [x]    | [x]  |  [ ]  | Algorithmic thinking really did kick off here in Python, C was a total headache, but worked as well |
 | 005     | Smallest Multiple           |    [x]    | [x]  |  [ ]  | Python script was in the bag! C appears o have memory issues, will try to solve and update README when second review of 1-10 |
 | 006     | Sum Square Difference       |    [x]    | [x]  |  [ ]  | Who would have thought that two formulas would have killed this program with O(1)? Good one! |
-| 007     | 10,001st Prime              |    [x]    | [ ]  |  [ ]  | This kind of problems make you wish P = nP; unfortunately, still working on a C O(n) solution |
+| 007     | 10,001st Prime              |    [x]    | [x]  |  [ ]  | This kind of problems make you wish P = nP; unfortunately, still working on a C O(n) solution |
 | 008     | Largest Product in a Series |    [ ]    | [ ]  |  [ ]  | NA                   |
 | 009     | Special Pythagorean Triplet |    [ ]    | [ ]  |  [ ]  | NA                   |
 | 010     | Summation of Primes         |    [ ]    | [ ]  |  [ ]  | NA                   |
